@@ -34,6 +34,10 @@ To install the person re id App, follow these steps:
    ```
    npm install
    ```
+4. Run the App
+   ```
+   npm run dev
+   ```
 
 ## Configuring the App
 
