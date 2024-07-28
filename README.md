@@ -46,10 +46,12 @@ To install the person re id App, follow these steps:
 2. If you're using environment variables, create a `.env` file in the root directory and add your API URL:
    ```
    VITE_API_URL=http://your-api-url
+   VITE_JOB_PROGRESS_URL=http://your-api-url/job_progress
    ```
    Then update the fetch call in `CreateGalleryPage.jsx` to use:
    ```javascript
    `${import.meta.env.VITE_API_URL}/create_gallery`
+   `${import.meta.env.VITE_JOB_PROGRESS_URL}`
    ```
 
 ## Running Gallery Creation App
