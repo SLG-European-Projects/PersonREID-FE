@@ -4,6 +4,7 @@ import { CreateGalleryPage } from './pages/CreateGalleryPage';
 import { SuccessPage } from './pages/SuccessPage';
 import { GalleryPage } from './pages/GalleryPage';
 import Layout from './Layout';
+import ClusterDetailPage from './pages/ClusterDetailPage';
 
 function App() {
   return (
@@ -13,7 +14,9 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/create-gallery" element={<CreateGalleryPage />} />
           <Route path="/success" element={<SuccessPage />} />
-          <Route path="/gallery" element={<GalleryPage />} />
+          {/* <Route path="/gallery" element={<GalleryPage />} /> */}
+          <Route path="/gallery/:jobId" element={<GalleryPage />} />
+          <Route path="/cluster/:jobId/:clusterId" element={<ClusterDetailPage />} />
         </Routes>
       </Layout>
     </Router>

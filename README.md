@@ -47,11 +47,16 @@ To install the person re id App, follow these steps:
    ```
    VITE_API_URL=http://your-api-url
    VITE_JOB_PROGRESS_URL=http://your-api-url/job_progress
+   VITE_LOCAL_THUMBNAIL_PATH=/path/to/your/local/thumbnail/folder
+   VITE_SERVER_THUMBNAIL_URL=http://your-server-url/thumbnails
    ```
    Then update the fetch call in `CreateGalleryPage.jsx` to use:
    ```javascript
    `${import.meta.env.VITE_API_URL}/create_gallery`
    `${import.meta.env.VITE_JOB_PROGRESS_URL}`
+   `${import.meta.env.VITE_LOCAL_THUMBNAIL_PATH}/${cluster.thumbnail}` // For local development
+   // `${import.meta.env.VITE_SERVER_THUMBNAIL_URL}/${cluster.thumbnail}` // For server deployment
+   // `${import.meta.env.VITE_THUMBNAIL_URL}/${cluster.thumbnail}`
    ```
 
 ## Running Gallery Creation App

@@ -92,11 +92,12 @@ export function HomePage() {
               individuals. It automatically creates distinct visual profiles for each person, which will be used as a
               reference in the re-identification process.
             </p>
+           
+            <Button asChild className="mt-6 w-full bg-purple-600 text-white">
             <Link to="/create-gallery">
-            <Button className="mt-6 w-full bg-purple-600 text-white">
               Start Extract
+              </Link>
             </Button>
-            </Link>
           </Card>
           <Card className="p-6">
             <div className="flex items-center space-x-4">
