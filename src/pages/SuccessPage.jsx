@@ -66,7 +66,7 @@ export function SuccessPage() {
         </div>
         <div className="mt-6">
           <Link
-            to="/gallery"
+            to="/gallery/444"
             className={`inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
               progress < 100 ? 'opacity-50 cursor-not-allowed' : ''
             }`}
@@ -74,6 +74,16 @@ export function SuccessPage() {
           >
             Show Results
           </Link>
+          {/* <Link> to clusters page results </Link> with jobID*/}
+          {/* <Link
+            to={`/gallery/${jobId}`}
+            className={`inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
+              progress < 100 ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+            onClick={(e) => progress < 100 && e.preventDefault()}
+          >
+            Show Results
+          </Link> */}
         </div>
       </div>
     </div>
