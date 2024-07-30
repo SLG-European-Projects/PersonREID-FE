@@ -24,16 +24,49 @@ export default function ClusterDetailPage() {
   const { jobId, clusterId } = useParams();
   const navigate = useNavigate();
   const [clusterData, setClusterData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // In a real app, you'd fetch the specific cluster data here
-    // For now, we'll filter it from our mock data
-    const cluster = mockGalleryData.data.clusters.find(c => c.id.toString() === clusterId);
-    setClusterData(cluster);
-  }, [clusterId]);
+    const fetchClusterData = async () => {
+      setIsLoading(true);
+      try {
+        // Uncomment the following lines when ready to use the real API
+        // const response = await fetch(`${import.meta.env.VITE_API_URL}/job_result/${jobId}`);
+        // if (!response.ok) {
+        //   throw new Error('Failed to fetch cluster data');
+        // }
+        // const data = await response.json();
+        // const cluster = data.data.clusters.find(c => c.id.toString() === clusterId);
+        // setClusterData(cluster);
+
+        // For now, use mock data
+        setTimeout(() => {
+          const cluster = mockGalleryData.data.clusters.find(c => c.id.toString() === clusterId);
+          setClusterData(cluster);
+          setIsLoading(false);
+        }, 500); // Simulate network delay
+      } catch (error) {
+        console.error('Error fetching cluster data:', error);
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchClusterData();
+  }, [jobId, clusterId]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   if (!clusterData) {
-    return <div>Loading...</div>;
+    return <div>No data found for this cluster.</div>;
   }
 
   const handleBack = () => {
