@@ -27,10 +27,15 @@ export function CreateGalleryPage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
-    const filteredPaths = videoPaths.filter(path => path.trim() !== '');
+
+    const prefix = import.meta.env.VITE_MOUNTED_DIR;
+
+    const filteredPaths =  videoPaths
+      .filter(path => path.trim() !== '') // Filter out empty paths
+      .map(path => `${prefix}/input/${path}`); // Add the prefix
 
     try {
-      const response = await fetch('http://localhost:9090/create_gallery', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/create_gallery`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

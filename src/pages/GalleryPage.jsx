@@ -13,18 +13,23 @@ export function GalleryPage() {
       setIsLoading(true);
       try {
         // Uncomment the following lines when ready to use the real API
-        // const response = await fetch(`${import.meta.env.VITE_API_URL}/job_result/${jobId}`);
-        // if (!response.ok) {
-        //   throw new Error('Failed to fetch gallery data');
-        // }
-        // const data = await response.json();
-        // setGalleryData(data.data.clusters);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/job_result/${jobId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch gallery data');
+        }
+        
+        const dataString = await response.json();
+        const data = JSON.parse(dataString);  // Parse the JSON string into an object
+
+        setGalleryData(data.data.clusters);
+        setIsLoading(false);
+
 
         // For now, use mock data
-        setTimeout(() => {
-          setGalleryData(mockGalleryData.data.clusters);
-          setIsLoading(false);
-        }, 500);
+        // setTimeout(() => {
+        //   setGalleryData(mockGalleryData.data.clusters);
+        //   setIsLoading(false);
+        // }, 500);
       } catch (error) {
         console.error('Error fetching gallery data:', error);
         setError(error.message);
@@ -65,10 +70,11 @@ export function GalleryPage() {
               <img
                 // Use local file system path for development
                 // src={`${import.meta.env.VITE_LOCAL_THUMBNAIL_PATH}/${cluster.thumbnail}`}
-                src={`${cluster.thumbnail}`}
+                // src={`${cluster.thumbnail}`}
                 
                 // Commented code for server deployment
                 // src={`${import.meta.env.VITE_SERVER_THUMBNAIL_URL}/${cluster.thumbnail}`}
+                src={`${import.meta.env.VITE_NGINX}/${jobId}/${cluster.id}/${cluster.thumbnail}`}               
                 
                 alt={`Cluster ${cluster.id}`}
                 width={400}

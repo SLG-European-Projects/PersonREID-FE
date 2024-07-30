@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { Link } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { Progress } from "../components/ui/progress";
 
 // Mock function to simulate progress
@@ -16,16 +16,20 @@ const mockFetchProgress = (currentProgress) => {
 
 export function SuccessPage() {
   const [progress, setProgress] = useState(0);
+  const location = useLocation();
+  const { jobId } = location.state || {};
+  // const { jobId } = useParams();
+
 
   const fetchProgress = useCallback(async () => {
     try {
-      const progressValue = await mockFetchProgress(progress);
-      setProgress(progressValue);
+      // const progressValue = await mockFetchProgress(progress);
+      // setProgress(progressValue);
 
       // Uncomment and use this when the real API is ready
-      // const response = await fetch(`${import.meta.env.VITE_JOB_PROGRESS_URL}`);
-      // const data = await response.json();
-      // setProgress(prevProgress => Math.max(prevProgress, data.progress)); // Ensure progress never decreases
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/job_progress/${jobId}`);
+      const data = await response.json();
+      setProgress(prevProgress => Math.max(prevProgress, data.progress)); // Ensure progress never decreases
     } catch (error) {
       console.error("Error fetching progress:", error);
     }
@@ -65,7 +69,7 @@ export function SuccessPage() {
           )}
         </div>
         <div className="mt-6">
-          <Link
+          {/* <Link
             to="/gallery/444"
             className={`inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
               progress < 100 ? 'opacity-50 cursor-not-allowed' : ''
@@ -73,9 +77,9 @@ export function SuccessPage() {
             onClick={(e) => progress < 100 && e.preventDefault()}
           >
             Show Results
-          </Link>
+          </Link> */}
           {/* <Link> to clusters page results </Link> with jobID*/}
-          {/* <Link
+          <Link
             to={`/gallery/${jobId}`}
             className={`inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
               progress < 100 ? 'opacity-50 cursor-not-allowed' : ''
@@ -83,7 +87,7 @@ export function SuccessPage() {
             onClick={(e) => progress < 100 && e.preventDefault()}
           >
             Show Results
-          </Link> */}
+          </Link>
         </div>
       </div>
     </div>
