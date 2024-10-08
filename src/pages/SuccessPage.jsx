@@ -62,8 +62,8 @@ export function SuccessPage() {
           {progress === 100 && (
             <>
               <h2 className="text-2xl font-bold mb-4 mt-4">Gallery Created Successfully!</h2>
-              <Link to="/create-gallery" className="text-blue-500 hover:underline">
-                Create Another Gallery
+              <Link to="/" className="text-blue-500 hover:underline">
+                Back to Home
               </Link>
             </>
           )}

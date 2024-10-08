@@ -83,7 +83,7 @@ export function HomePage() {
             <div className="flex items-center space-x-4">
               <LeafIcon className="h-10 w-10 text-purple-600" />
               <div>
-                <h2 className="text-xl font-semibold text-gray-900">Extract Individual</h2>
+                <h2 className="text-xl font-semibold text-gray-900">Extract Individuals</h2>
                 <p className="text-sm text-gray-600">Isolate & Catalogue</p>
               </div>
             </div>
@@ -95,7 +95,7 @@ export function HomePage() {
            
             <Button asChild className="mt-6 w-full bg-purple-600 text-white">
             <Link to="/create-gallery">
-              Start Extract
+              Start Extraction
               </Link>
             </Button>
           </Card>
@@ -112,8 +112,9 @@ export function HomePage() {
               matches them against the individuals in the new content, effectively re-identifying and locating
               appearances of the same individuals across different media.
             </p>
-              <Button className="mt-6 w-full bg-purple-600 text-white">
-                <Link to="/test"> Start Identify</Link>
+              <Button asChild className="mt-6 w-full bg-purple-600 text-white">
+                <Link to="/search-suspect">
+                 Start Identification</Link>
               </Button>
           </Card>
         </div>

@@ -51,7 +51,7 @@ export function ListPage() {
 
   return (
     <div className="container mx-auto py-10">
-      <h1 className="text-2xl font-bold mb-4">Gallery ID</h1>
+      <h1 className="text-2xl font-bold mb-4">Job ID</h1>
       <table className="min-w-full bg-white border border-gray-200">
         {/* <thead>
           <tr>

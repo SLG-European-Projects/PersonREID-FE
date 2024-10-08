@@ -4,13 +4,18 @@ import { Button } from "../components/ui/button";
 import { Input } from '../components/ui/input';
 import { toast } from 'react-hot-toast';
 
-export function CreateGalleryPage() {
+export function SearchSuspectPage() {
   const [videoPaths, setVideoPaths] = useState(['']);
+  const [suspectPaths, setSuspectPaths] = useState(['']);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleAddPath = () => {
     setVideoPaths([...videoPaths, '']);
+  };
+
+  const handleAddSusPath = () => {
+    setSuspectPaths([...suspectPaths, '']);
   };
 
   const handlePathChange = (index, value) => {
@@ -19,9 +24,20 @@ export function CreateGalleryPage() {
     setVideoPaths(newPaths);
   };
 
+  const handleSusPathChange = (index, value) => {
+    const newPaths = [...suspectPaths];
+    newPaths[index] = value;
+    setSuspectPaths(newPaths);
+  };
+
   const handleRemovePath = (index) => {
     const newPaths = videoPaths.filter((_, i) => i !== index);
     setVideoPaths(newPaths.length ? newPaths : ['']);
+  };
+
+  const handleRemoveSusPath = (index) => {
+    const newPaths = suspectPaths.filter((_, i) => i !== index);
+    setSuspectPaths(newPaths.length ? newPaths : ['']);
   };
 
   const handleSubmit = async (event) => {
@@ -34,13 +50,17 @@ export function CreateGalleryPage() {
       .filter(path => path.trim() !== '') // Filter out empty paths
       .map(path => `${prefix}/input/${path}`); // Add the prefix
 
+    const filteredSuspectPaths = suspectPaths
+      .filter(path => path.trim() !== '') // Filter out empty paths
+      //Image paths are determined by results of person extraction: user should add produced path
+    
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/create_gallery`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/search_suspect`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ video_paths: filteredPaths }),
+        body: JSON.stringify({ video_paths: filteredPaths, suspect_paths: filteredSuspectPaths }),
       });
 
       const data = await response.json();
@@ -66,24 +86,49 @@ export function CreateGalleryPage() {
 
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-2xl">
+      
       {videoPaths.map((path, index) => (
         <div key={index} className="flex mb-3">
           <Input
             type="text"
             value={path}
             onChange={(e) => handlePathChange(index, e.target.value)}
-            placeholder="Enter video path (relative to mounted directory- ex. '/person-reid/application_data/input_videos')"
+            placeholder="Enter video path (e.g., '/person-reid/application_data/input_videos/sample_video.mp4')"
             className="flex-grow mr-2"
           />
           {videoPaths.length > 1 && (
             <Button type="button" onClick={() => handleRemovePath(index)}>Remove</Button>
           )}
+          
+        </div>
+      ))}
+            <div className="flex gap-3">
+        <Button type="button" onClick={handleAddPath}>Add Another Video Path</Button>
+
+      </div>
+      &nbsp;
+      {suspectPaths.map((path, index) => (
+        <div key={index} className="flex mb-3">
+          <Input
+            type="text"
+            value={path}
+            onChange={(e) => handleSusPathChange(index, e.target.value)}
+            placeholder="Enter suspect image path (e.g., '/person-reid/application_data/results/id/cluster/sample_picture.jpg')"
+            className="flex-grow mr-0"
+          />
+          {videoPaths.length > 1 && (
+            <Button type="button" onClick={() => handleRemoveSusPath(index)}>Remove</Button>
+          )}
         </div>
       ))}
       <div className="flex gap-3">
-        <Button type="button" onClick={handleAddPath}>Add Another Path</Button>
-        <Button type="submit" disabled={isLoading}>
-          {isLoading ? 'Creating...' : 'Start Extraction'}
+        <Button type="button" onClick={handleAddSusPath}>Add Another Suspect Image Path </Button>
+
+      </div>
+      &nbsp;
+      <div className='flex gap-3'>
+      <Button type="submit" disabled={isLoading}>
+          {isLoading ? 'Searching...' : 'Start Identification'}
         </Button>
       </div>
     </form>

@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, Navigate } from 'react-router-dom';
 import { mockGalleryData } from './mockGalleryData';
 
 export function GalleryPage() {
   const [galleryData, setGalleryData] = useState(null);
+  const [suspectData, setSuspectData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const { jobId } = useParams();
@@ -21,7 +22,12 @@ export function GalleryPage() {
         const dataString = await response.json();
         const data = JSON.parse(dataString);  // Parse the JSON string into an object
 
+        //const suspects = data.data.suspects;
+        
         setGalleryData(data.data.clusters);
+        setSuspectData(data.data.suspects);
+
+ 
         setIsLoading(false);
 
 
@@ -50,6 +56,7 @@ export function GalleryPage() {
 
   return (
     <section className="w-full py-12 md:py-24 lg:py-32">
+      {suspectData ? <Navigate to={`/reid/:${jobId}`}/> : null}
       <div className="container grid gap-8 px-4 md:px-6">
         <div className="space-y-3 text-center">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
@@ -62,11 +69,15 @@ export function GalleryPage() {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {galleryData && galleryData.map((cluster) => (
             <div key={cluster.id} className="group relative overflow-hidden rounded-lg">
+
+  
+
           <Link 
             key={cluster.id} 
             to={`/cluster/${jobId}/${cluster.id}`}
             className="group relative overflow-hidden rounded-lg"
           >
+         
               <img
                 // Use local file system path for development
                 // src={`${import.meta.env.VITE_LOCAL_THUMBNAIL_PATH}/${cluster.thumbnail}`}
@@ -87,6 +98,7 @@ export function GalleryPage() {
                 </h3>
               </div>
 			</Link>
+
             </div>
           ))}
         </div>
