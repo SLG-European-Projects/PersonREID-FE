@@ -44,8 +44,12 @@ export function SuspectListPage() {
     fetchSuspectData();
   }, [jobId]);
 
-  const handleRowClick = (folderName) => {
-    navigate(`./${folderName}`);
+  const handleRowClick = (folderName, suspect) => {
+    navigate(`./${folderName}`,  {
+      state: {
+        suspectData: suspect
+      }
+    });
   };
 
   if (isLoading) {
@@ -66,11 +70,23 @@ export function SuspectListPage() {
           <th className="py-2 px-4 border-b">Gallery ID</th>
         </tr>
       </thead> */}
-      <tbody>
+      {/* <tbody>
       {suspectData && suspectData.map((suspect) => (
           <tr
             className="cursor-pointer hover:bg-gray-100"
             onClick={() => handleRowClick(suspect.id)}
+          >
+            <td className="py-2 px-4 border-b">{suspect.id}</td>
+          </tr>
+        ))}
+      </tbody> */}
+
+      <tbody>
+        {suspectData && suspectData.map((suspect, index) => (
+          <tr
+            key={index} // Always provide a key when using map in React
+            className="cursor-pointer hover:bg-gray-100"
+            onClick={() => handleRowClick(`suspect_${index}`, suspect)}
           >
             <td className="py-2 px-4 border-b">{suspect.id}</td>
           </tr>

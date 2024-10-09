@@ -49,10 +49,12 @@ export function SearchSuspectPage() {
     const filteredPaths =  videoPaths
       .filter(path => path.trim() !== '') // Filter out empty paths
       .map(path => `${prefix}/input/${path}`); // Add the prefix
-
-    const filteredSuspectPaths = suspectPaths
+      
+    const filteredSuspectPaths =  suspectPaths
       .filter(path => path.trim() !== '') // Filter out empty paths
-      //Image paths are determined by results of person extraction: user should add produced path
+      .map(path => `${prefix}/output/${path}`); // Add the prefix
+
+    //Image paths are determined by results of person extraction: user should add produced path
     
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/search_suspect`, {
@@ -93,7 +95,7 @@ export function SearchSuspectPage() {
             type="text"
             value={path}
             onChange={(e) => handlePathChange(index, e.target.value)}
-            placeholder="Enter video path (e.g., '/person-reid/application_data/input_videos/sample_video.mp4')"
+            placeholder="Enter video path relative to the input directory (e.g., 'sample_video.mp4')"
             className="flex-grow mr-2"
           />
           {videoPaths.length > 1 && (
@@ -113,7 +115,7 @@ export function SearchSuspectPage() {
             type="text"
             value={path}
             onChange={(e) => handleSusPathChange(index, e.target.value)}
-            placeholder="Enter suspect image path (e.g., '/person-reid/application_data/results/id/cluster/sample_picture.jpg')"
+            placeholder="Enter suspect image path, relative to the output directiory (e.g., 'id/cluster/sample_picture.jpg')"
             className="flex-grow mr-0"
           />
           {videoPaths.length > 1 && (

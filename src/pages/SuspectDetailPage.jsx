@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { mockSuspectData } from './mockSuspectData';
+import { useLocation } from "react-router-dom";
 
 import {
     Table,
@@ -15,28 +16,31 @@ import {
   
 export function SuspectDetailPage() {
   const [suspectData, setSuspectData] = useState(null);
+  const location = useLocation();
+
   const [suspectClusters, setSuspectClusters] = useState(null);
   const [suspectClustersSim, setSuspectClustersSim] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const { jobId, suspectId } = useParams();
   const navigate = useNavigate();
+  const suspect =  location.state.suspectData || {}; // Access the passed state
 
   useEffect(() => {
     const fetchSuspectData = async () => {
       setIsLoading(true);
       try {
         // Uncomment the following lines when ready to use the real API
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/job_result/${jobId}/${suspectId}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch suspect data');
-        }
+        // const response = await fetch(`${import.meta.env.VITE_NGINX}/${jobId}/${suspectId}/`);
+        // if (!response.ok) {
+        //   throw new Error('Failed to fetch suspect data');
+        // }
         
-        const dataString = await response.json();
-        const data = JSON.parse(dataString);  // Parse the JSON string into an object
+        // const dataString = await response.json();
+        // const data = JSON.parse(dataString);  // Parse the JSON string into an object
         //const data = mockSuspectData;
 
-        const suspect = data.data.suspects.find(c => c.id.toString() === suspectId);
+        // const suspect = data.data.suspects.find(c => c.id.toString() === suspectId);
         
         setSuspectData(suspect);
         setSuspectClusters(suspect.k_clusters);

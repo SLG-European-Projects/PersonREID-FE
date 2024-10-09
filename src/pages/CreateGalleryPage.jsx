@@ -72,7 +72,7 @@ export function CreateGalleryPage() {
             type="text"
             value={path}
             onChange={(e) => handlePathChange(index, e.target.value)}
-            placeholder="Enter video path (relative to mounted directory- ex. '/person-reid/application_data/input_videos')"
+            placeholder="Enter video path relative to input directory (ex. 'sample_video.mp4')"
             className="flex-grow mr-2"
           />
           {videoPaths.length > 1 && (
