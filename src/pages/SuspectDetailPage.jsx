@@ -29,37 +29,11 @@ export function SuspectDetailPage() {
   useEffect(() => {
     const fetchSuspectData = async () => {
       setIsLoading(true);
-      try {
-        // Uncomment the following lines when ready to use the real API
-        // const response = await fetch(`${import.meta.env.VITE_NGINX}/${jobId}/${suspectId}/`);
-        // if (!response.ok) {
-        //   throw new Error('Failed to fetch suspect data');
-        // }
-        
-        // const dataString = await response.json();
-        // const data = JSON.parse(dataString);  // Parse the JSON string into an object
-        //const data = mockSuspectData;
-
-        // const suspect = data.data.suspects.find(c => c.id.toString() === suspectId);
-        
+      try {        
         setSuspectData(suspect);
         setSuspectClusters(suspect.k_clusters);
         setSuspectClustersSim(suspect.k_clusters_similarity);
         setIsLoading(false);
-
-
-        // For now, use mock data
-        //   setTimeout(() => {
-        //   console.info('mock data:', suspect);
-        //   setSuspectData(suspect);
-          
-        //   console.info('mock data 2:', suspect.k_clusters);
-        //   setSuspectClusters(suspect.k_clusters);
-        //   console.info('mock data 3:', suspect.k_clusters_similarity);
-        //   setSuspectClustersSim(suspect.k_clusters_similarity);
-
-        //   setIsLoading(false);
-        // }, 500);
       } catch (error) {
         console.error('Error fetching gallery data:', error);
         setError(error.message);
@@ -89,7 +63,7 @@ export function SuspectDetailPage() {
   return (
 <div className="container mx-auto py-10">
       <div className="flex justify-between items-center mb-5">
-        <h1 className="text-2xl font-bold">Details for: {suspectId}</h1>
+        <h1 className="text-2xl font-bold">Details for Suspect {suspectId.replace('suspect_','')}</h1>
         <Button onClick={handleBack}>Back to Suspects</Button>
       </div>
       <Table>
@@ -101,12 +75,12 @@ export function SuspectDetailPage() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {suspectClusters.map((index, item) => (
+          {suspectClusters.map((_, item) => (
             <TableRow>
               <TableCell>{suspectClusters[item]}</TableCell>
               <TableCell>{suspectClustersSim[item]}</TableCell>
               <TableCell>
-                <Button onClick={()=> navigate(`/cluster/${jobId}/${suspectClusters[item]}`)}>View CLuster</Button>
+                <Button onClick={()=> navigate(`/cluster/${jobId}/${suspectClusters[item]}`)}>View Cluster</Button>
               </TableCell>
             </TableRow>
           ))}

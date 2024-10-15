@@ -15,7 +15,8 @@ const Layout = ({ children }) => {
         </nav>
       </header>
       <main className="flex-grow flex items-center justify-center p-4">
-        <div className="w-full max-w-4xl">
+        <div className="w-full ">
+        {/* max-w-4xl */}
           {children}
         </div>
       </main>
