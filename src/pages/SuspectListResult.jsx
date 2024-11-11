@@ -14,27 +14,17 @@ export function SuspectListResult() {
     const fetchSuspectData = async () => {
       setIsLoading(true);
       try {
-        //Uncomment the following lines when ready to use the real API
         const response = await fetch(`${import.meta.env.VITE_API_URL}/job_result/${jobId}`);
         if (!response.ok) {
           throw new Error('Failed to fetch suspect list data');
         }
         
         const dataString = await response.json();
-        const data = JSON.parse(dataString);  // Parse the JSON string into an object
-        console.log(data)
+        const data = JSON.parse(dataString);
+        console.log(data);
         setSuspectData(data.data.suspects);
         setClusterData(data.data.clusters);
-
-        // //For now, use mock data
-        //   setTimeout(() => {
-        //   setSuspectData(mockSuspectData.data.suspects);
-        //   setIsLoading(false);
-        //   console.info('mock data:', mockSuspectData.data.suspects)
-        // }, 500);
- 
         setIsLoading(false);
-       
       } catch (error) {
         console.error('Error fetching gallery data:', error);
         setError(error.message);
@@ -45,13 +35,9 @@ export function SuspectListResult() {
     fetchSuspectData();
   }, [jobId]);
 
-//   const handleRowClick = (folderName, suspect) => {
-//     navigate(`./suspect_${folderName}`,  {
-//       state: {
-//         suspectData: suspect
-//       }
-//     });
-//   };
+  const handleRowClick = (id) => {
+    setExpandedRow(expandedRow === id ? null : id);
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -60,12 +46,6 @@ export function SuspectListResult() {
   if (error) {
     return <div>Error: {error}</div>;
   }
-
-  const handleRowClick = (id) => {
-    // If the row is already expanded, collapse it; otherwise, expand it
-    setExpandedRow(expandedRow === id ? null : id);
-    console.log(id)
-  };
 
   return (
     <div className="w-full max-w-3xl mx-auto">
@@ -79,53 +59,67 @@ export function SuspectListResult() {
                 className="cursor-pointer hover:bg-gray-100"
                 onClick={() => handleRowClick(suspect.id)}
               >
-                {/* <td className="py-3 px-6 border-b">{row.id}</td> */}
                 <td className="py-3 px-6 border-b">Suspect {index}</td>
+                <td>
+                  <img
+                    src={`http://10.41.41.112:8080/media/${suspect.path.replace('/opt/mounted_dir/output/','')}`}
+                    style={{ width: '50px' }}
+                    alt={`Suspect ${index}`}
+                  />
+                </td>
               </tr>
 
-              {/* Dropdown row */}
+              {/* Expanded row */}
               {expandedRow === suspect.id && (
                 <tr>
                   <td colSpan="2" className="py-3 px-6 border-b bg-gray-50">
-
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-                    {suspect.k_clusters.map((clusterId, index) => {
-                        // Find the corresponding cluster by its ID
-                        const cluster = clusterData.find((cluster) => cluster.id === clusterId);
+                      {/* First image with suspect's image */}
+                      <div className="group relative overflow-hidden rounded-lg">
+                        <img
+                          src={`http://10.41.41.112:8080/media/${suspect.path.replace('/opt/mounted_dir/output/','')}`}
+                          alt={`Suspect ${index}`}
+                          className="h-60 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                          />
+                          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                            <h3 className="text-lg font-semibold text-white">
+                              Suspect {index}
 
-                        // Ensure the cluster exists before rendering
+                            </h3>
+                          </div>
+                      </div>
+                      
+                      {/* Remaining cluster images */}
+                      {suspect.k_clusters.map((clusterId, index) => {
+                        const cluster = clusterData.find((cluster) => cluster.id === clusterId);
                         if (cluster) {
-                        return (
+                          return (
                             <div key={cluster.id} className="group relative overflow-hidden rounded-lg">
-                            <Link 
+                              <Link
                                 to={`/cluster/${jobId}/${cluster.id}`}
                                 className="group relative overflow-hidden rounded-lg"
-                            >
+                              >
                                 <img
-                                src={`${import.meta.env.VITE_NGINX}/${jobId}/${cluster.id}/${cluster.thumbnail}`}
-                                alt={`Cluster ${cluster.id}`}
-                                width={400}
-                                height={400}
-                                className="h-60 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                  src={`${import.meta.env.VITE_NGINX}/${jobId}/${cluster.id}/${cluster.thumbnail}`}
+                                  alt={`Cluster ${cluster.id}`}
+                                  className="h-60 w-full object-cover transition-transform duration-300 group-hover:scale-105"
                                 />
                                 <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                                    <h3 className="text-lg font-semibold text-white">
-                                        Cluster {cluster.id}
-                                    </h3>
-                                    <p className="text-lg font-semibold text-white"> Similarity: {'\n\n\n\n\n\n'}</p>
-                                    <p className="text-lg font-semibold text-white">
-                                        {suspect.k_clusters_similarity[index].toFixed(5)}
-                                    </p>
+                                  <h3 className="text-lg font-semibold text-white">
+                                      Cluster {cluster.id}
+                                  </h3>
+                                  <p className="text-lg font-semibold text-white"> Similarity: {'\n\n\n\n\n\n'}</p>
+                                  <p className="text-lg font-semibold text-white">
+                                      {suspect.k_clusters_similarity[index].toFixed(5)}
+                                  </p>
                                 </div>
-                            </Link>
+                              </Link>
                             </div>
-                        );
+                          );
                         }
-
-                        // Return null if no cluster is found
                         return null;
-                    })}
-                        </div>
+                      })}
+                    </div>
                   </td>
                 </tr>
               )}
@@ -134,5 +128,5 @@ export function SuspectListResult() {
         </tbody>
       </table>
     </div>
-
-  )};
+  );
+}

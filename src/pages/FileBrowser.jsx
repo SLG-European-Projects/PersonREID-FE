@@ -183,7 +183,7 @@ export function FileBrowser() {
         setIsLoading(false);
       }
     } else {
-      try {1    
+      try { 
           // Define video and image extensions
         const videoExtensions = ['.mp4', '.mov', '.avi'];
         const imageExtensions = ['.jpg', '.jpeg', '.png'];
@@ -198,7 +198,6 @@ export function FileBrowser() {
         const imagePaths = selectedResources.filter(file =>
           imageExtensions.some(ext => file.name.toLowerCase().endsWith(ext))
         ).map(file => `${prefix}/output/${file.path}`.replace(/\/{2,}/g, '/')); 
-
 
         const response = await fetch(`${import.meta.env.VITE_API_URL}/search_suspect`, {
           method: 'POST',
