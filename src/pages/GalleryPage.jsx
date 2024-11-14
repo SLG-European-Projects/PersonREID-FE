@@ -85,7 +85,7 @@ export function GalleryPage() {
                 
                 // Commented code for server deployment
                 // src={`${import.meta.env.VITE_SERVER_THUMBNAIL_URL}/${cluster.thumbnail}`}
-                src={`${import.meta.env.VITE_NGINX}/${jobId}/${cluster.id}/${cluster.thumbnail}`}               
+                src={`${import.meta.env.VITE_NGINX}/media/${jobId}/${cluster.id}/${cluster.thumbnail}`}               
                 
                 alt={`Cluster ${cluster.id}`}
                 width={400}

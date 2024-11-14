@@ -10,7 +10,7 @@ export function ListPage() {
   useEffect(() => {
     const fetchFolderList = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_NGINX}/`);
+        const response = await fetch(`${import.meta.env.VITE_NGINX}/media/`);
         if (!response.ok) {
           throw new Error('Failed to fetch folder list');
         }

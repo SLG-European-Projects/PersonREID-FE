@@ -48,8 +48,8 @@ export function FileBrowser() {
       setIsLoading(true);
       try {
         const baseUrl = folderPath
-          ? `http://10.41.41.112:8080/${nginxView}/${folderPath}`
-          : `http://10.41.41.112:8080/${nginxView}/`;
+          ? `${import.meta.env.VITE_NGINX}/${nginxView}/${folderPath}`
+          : `${import.meta.env.VITE_NGINX}/${nginxView}/`;
 
         const response = await fetch(baseUrl);
         if (!response.ok) {
@@ -338,7 +338,7 @@ export function FileBrowser() {
                       <td className="py-2 px-4 border-b">
                         {item.type === 'file' && item.name.endsWith('.jpg') ? (
                           <img
-                            src={`http://10.41.41.112:8080/${nginxView}/${folderPath ? `${folderPath}/` : ''}${item.name}`}
+                            src={`${import.meta.env.VITE_NGINX}/${nginxView}/${folderPath ? `${folderPath}/` : ''}${item.name}`}
                             alt={item.name}
                             style={{ width: '50px' }}
                           />
@@ -353,7 +353,7 @@ export function FileBrowser() {
                               </DialogHeader>
                               <div className="mt-4">
                                 <video controls autoPlay className="w-full h-auto">
-                                  <source src={`http://10.41.41.112:8080/${nginxView}/${folderPath ? `${folderPath}/` : ''}${item.name}`} type="video/mp4" />
+                                  <source src={`${import.meta.env.VITE_NGINX}/${nginxView}/${folderPath ? `${folderPath}/` : ''}${item.name}`} type="video/mp4" />
                                   Your browser does not support the video tag.
                                 </video>
                               </div>
@@ -389,7 +389,7 @@ export function FileBrowser() {
                   <td className="py-3 px-6 border-b">
                     {file.name && file.name.endsWith('.jpg') ? (
                       <img
-                        src={`http://10.41.41.112:8080/${nginxView}/${file.path}`}
+                        src={`${import.meta.env.VITE_NGINX}/${nginxView}/${file.path}`}
                         alt={file.name}
                         style={{ width: '80px' }} // Larger image preview
                       />
@@ -404,7 +404,7 @@ export function FileBrowser() {
                           </DialogHeader>
                           <div className="mt-4">
                             <video controls autoPlay className="w-full h-auto">
-                              <source src={`http://10.41.41.112:8080/${nginxView}/${folderPath ? `${folderPath}/` : ''}${file.name}`} type="video/mp4" />
+                              <source src={`${import.meta.env.VITE_NGINX}/${nginxView}/${folderPath ? `${folderPath}/` : ''}${file.name}`} type="video/mp4" />
                               Your browser does not support the video tag.
                             </video>
                           </div>

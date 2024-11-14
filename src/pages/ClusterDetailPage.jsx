@@ -62,7 +62,7 @@ export default function ClusterDetailPage() {
             const timestampStart = interval.timestamp_interval[0];
             const timestampEnd = interval.timestamp_interval[1];
             const videoFileName = `${cluster.items[0].id}_time_${timestampStart}-${timestampEnd}.mp4`;
-            const videoUrl = `${import.meta.env.VITE_NGINX}/${jobId}/${clusterId}/clips/${videoFileName}`;
+            const videoUrl = `${import.meta.env.VITE_NGINX}/media/${jobId}/${clusterId}/clips/${videoFileName}`;
             const urlExists = await checkFileExists(videoUrl);
             return {
               ...interval,

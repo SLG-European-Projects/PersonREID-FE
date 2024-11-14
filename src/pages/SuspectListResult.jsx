@@ -100,7 +100,7 @@ export function SuspectListResult() {
                                 className="group relative overflow-hidden rounded-lg"
                               >
                                 <img
-                                  src={`${import.meta.env.VITE_NGINX}/${jobId}/${cluster.id}/${cluster.thumbnail}`}
+                                  src={`${import.meta.env.VITE_NGINX}/media/${jobId}/${cluster.id}/${cluster.thumbnail}`}
                                   alt={`Cluster ${cluster.id}`}
                                   className="h-60 w-full object-cover transition-transform duration-300 group-hover:scale-105"
                                 />
